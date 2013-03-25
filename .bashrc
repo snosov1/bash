@@ -7,9 +7,12 @@ fi
 export EDITOR="emacsclient"
 
 # bindings
-bind '"\ep": previous-history'
-bind '"\en": next-history'
-bind '"\eh": backward-kill-word'
+case "$TERM" in
+xterm*|rxvt*|eterm*)
+        bind '"\ep": previous-history'
+        bind '"\en": next-history'
+        bind '"\eh": backward-kill-word'
+esac
 
 # aliases
 alias cb="chromium-browser"
