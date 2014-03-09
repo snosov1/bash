@@ -11,8 +11,8 @@ cd $dir
 
 # emacs config
 git clone https://github.com/snosov1/dot-emacs.git
-ln -s dot-emacs/.emacs ~/.emacs
-ln -s dot-emacs/.mc-lists.el ~/.mc-lists.el
+ln -s $dir/dot-emacs/.emacs ~/.emacs
+ln -s $dir/dot-emacs/.mc-lists.el ~/.mc-lists.el
 
 # bash config
 git clone https://github.com/snosov1/bash.git
@@ -23,4 +23,4 @@ popd
 
 # useful utilities
 git clone https://github.com/snosov1/bin.git
-ln -s bin ~/bin
+ln -s $dir/bin ~/bin
