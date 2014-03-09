@@ -1,12 +1,10 @@
-if [[ $(id -u) -ne 0 ]] ; then echo "Please, run as sudo" ; exit 1 ; fi
-
 dir=~/.dev-setup
 
-apt-get -y install git
+sudo apt-get -y install git
 
-add-apt-repository -y ppa:cassou/emacs
-apt-get update
-apt-get -y install emacs24 emacs24-el emacs24-common-non-dfsg
+sudo add-apt-repository -y ppa:cassou/emacs
+sudo apt-get update
+sudo apt-get -y install emacs24 emacs24-el emacs24-common-non-dfsg
 
 mkdir -p $dir
 cd $dir

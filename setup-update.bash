@@ -1,5 +1,3 @@
-if [[ $(id -u) -ne 0 ]] ; then echo "Please, run as sudo" ; exit 1 ; fi
-
 dir=~/.dev-setup
 
 cd $dir
