@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cat sourcerc.sh | sed "s|\$PWD|$PWD|" >/tmp/.tmpsourcercsergei
+cat sourcerc.bash | sed "s|\$PWD|$PWD|" >/tmp/.tmpsourcercsergei
 
 if [ -f ~/.bashrc ]; then
     cat /tmp/.tmpsourcercsergei ~/.bashrc >/tmp/.tmpbashrcsergei
