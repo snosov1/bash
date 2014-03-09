@@ -12,4 +12,4 @@ popd
 
 # useful utilities
 git clone https://github.com/snosov1/bin.git
-ln -s ~/bin bin
+ln -s bin ~/bin
