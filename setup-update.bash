@@ -9,7 +9,7 @@ if [ -d "dot-emacs" ]; then
 fi
 
 if [ -d "bash" ]; then
-    cd bin
+    cd bash
     git pull
     cd ..
 fi
