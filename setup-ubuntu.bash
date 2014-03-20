@@ -35,3 +35,12 @@ popd
 # useful utilities
 git clone https://github.com/snosov1/bin.git
 ln -s $dir/bin ~/bin
+
+# bind Caps Lock to ctrl
+echo 'remove Lock = Caps_Lock
+remove Control = Control_L
+keysym Caps_Lock = Control_L
+add Control = Control_L' >/tmp/.xmodmap
+echo 'xmodmap ~/.xmodmap' >/tmp/.xsession
+cp -b /tmp/.xmodmap ~/.xmodmap
+cp -b /tmp/.xsession ~/.xsession
