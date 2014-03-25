@@ -11,7 +11,7 @@ done
 
 sudo apt-get -y install git
 
-if [ $INSATLL_EMACS -eq 1 ]; then
+if [ $INSTALL_EMACS -eq 1 ]; then
     sudo add-apt-repository -y ppa:cassou/emacs
     sudo apt-get update
     sudo apt-get -y install emacs24 emacs24-el emacs24-common-non-dfsg
