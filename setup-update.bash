@@ -33,10 +33,6 @@ if [ ! -f ~/.abbrev_defs ]; then
     ln -s $dir/dot-emacs/.abbrev_defs ~/.abbrev_defs
 fi
 
-if [ ! -f ~/.yasnippets ]; then
-    ln -s $dir/dot-emacs/.abbrev_defs ~/.abbrev_defs
-fi
-
 if [ ! -d ~/.yasnippets ]; then
     ln -s $dir/dot-emacs/.yasnippets ~/.yasnippets
 fi
