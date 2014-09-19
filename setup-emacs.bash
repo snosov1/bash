@@ -22,10 +22,7 @@ cd $dir
 
 # emacs config
 git clone https://github.com/snosov1/dot-emacs.git
-ln -s $dir/dot-emacs/.emacs ~/.emacs
-ln -s $dir/dot-emacs/.mc-lists.el ~/.mc-lists.el
-ln -s $dir/dot-emacs/.abbrev_defs ~/.abbrev_defs
-ln -s $dir/dot-emacs/.yasnippets ~/.yasnippets
+bash $dir/dot-emacs/create-links.bash
 
 # bind Caps Lock to ctrl
 echo 'remove Lock = Caps_Lock
