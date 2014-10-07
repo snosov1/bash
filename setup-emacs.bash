@@ -1,3 +1,6 @@
+set -e # exit on error
+set -u # disallow unset variables usage
+
 dir=~/.dev-setup
 
 OPTIND=1
@@ -22,7 +25,7 @@ cd $dir
 
 # emacs config
 git clone https://github.com/snosov1/dot-emacs.git
-bash $dir/dot-emacs/create-links.bash
+emacs --batch --script $dir/dot-emacs/create-links.el
 
 # bind Caps Lock to ctrl
 echo 'remove Lock = Caps_Lock
