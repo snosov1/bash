@@ -21,4 +21,4 @@ if [ -d "bin" ]; then
 fi
 
 # links
-bash $dir/dot-emacs/create-links.bash
+emacs --batch --script $dir/dot-emacs/create-links.el
