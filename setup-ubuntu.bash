@@ -12,37 +12,75 @@ while getopts "n" opt; do
     esac
 done
 
+echo "Install git"
 sudo apt-get -y install git
-
-if [ $INSTALL_EMACS -eq 1 ]; then
-    sudo add-apt-repository -y ppa:cassou/emacs
-    sudo apt-get update
-    sudo apt-get -y install emacs24 emacs24-el emacs24-common-non-dfsg
-fi
 
 mkdir -p $dir
 cd $dir
 
-# emacs config
-git clone https://github.com/snosov1/dot-emacs.git
-emacs --batch --script $dir/dot-emacs/create-links.el
+if [ $INSTALL_EMACS -eq 1 ]; then
+    echo "Install Emacs 24.4"
+    sudo apt-get install build-essential
+    sudo apt-get build-dep emacs24
+    wget http://ftp.gnu.org/gnu/emacs/emacs-24.4.tar.gz
+    tar -xzvf emacs-24.4.tar.gz
+    rm emacs-24.4.tar.gz
+    cd emacs-24.4
+    ./configure # --prefix=/opt/emacs
+    make -j4
+    sudo make install
+    cd ..
 
-# bash config
-git clone https://github.com/snosov1/bash.git
-pushd .
-cd bash
-bash install-bashrc.bash
-popd
+    git clone https://github.com/snosov1/ctags-d.git
+    cd ctags-d
+    ./configure
+    make -j4
+    sudo make install
+    cd ..
 
-# useful utilities
-git clone https://github.com/snosov1/bin.git
-ln -s $dir/bin ~/bin
-
-# bind Caps Lock to ctrl
-echo 'remove Lock = Caps_Lock
+    # bind Caps Lock to ctrl
+    echo 'remove Lock = Caps_Lock
 remove Control = Control_L
 keysym Caps_Lock = Control_L
 add Control = Control_L' >/tmp/.xmodmap
-echo 'xmodmap ~/.xmodmap' >/tmp/.xsession
-cp -b /tmp/.xmodmap ~/.xmodmap
-cp -b /tmp/.xsession ~/.xsession
+    echo 'xmodmap ~/.xmodmap' >/tmp/.xsession
+    cp -b /tmp/.xmodmap ~/.xmodmap
+    cp -b /tmp/.xsession ~/.xsession
+fi
+
+# emacs config
+if [ -d "dot-emacs" ]; then
+    echo "Update Emacs config"
+    cd dot-emacs
+    git pull
+    cd ..
+else
+    echo "Install Emacs config"
+    git clone https://github.com/snosov1/dot-emacs.git
+    emacs --batch --script $dir/dot-emacs/create-links.el
+fi
+
+# bash config
+if [ -d "bash" ]; then
+    echo "Update bash config"
+    cd bash
+    git pull
+    cd ..
+else
+    echo "Install bash config"
+    git clone https://github.com/snosov1/bash.git
+    pushd .
+    cd bash
+    bash install-bashrc.bash
+    popd
+fi
+
+# useful utilities
+if [ -d "bin" ]; then
+    cd bin
+    git pull
+    cd ..
+else
+    git clone https://github.com/snosov1/bin.git
+    ln -s $dir/bin ~/bin
+fi
