@@ -1,31 +1,39 @@
 set -e # exit on error
 set -u # disallow unset variables usage
 
+git_version=2.4.5
+emacs_version=24.5
 dir=~/.dev-setup
 
 OPTIND=1
-INSTALL_EMACS=1
+INSTALL=1
 while getopts "n" opt; do
     case "$opt" in
     n)
-            INSTALL_EMACS=0
+            INSTALL=0
     esac
 done
-
-echo "Install git"
-sudo apt-get -y install git
 
 mkdir -p $dir
 cd $dir
 
-if [ $INSTALL_EMACS -eq 1 ]; then
-    echo "Install Emacs 24.4"
-    sudo apt-get install build-essential
-    sudo apt-get build-dep emacs24
-    wget http://ftp.gnu.org/gnu/emacs/emacs-24.4.tar.gz
-    tar -xzvf emacs-24.4.tar.gz
-    rm emacs-24.4.tar.gz
-    cd emacs-24.4
+if [ $INSTALL -eq 1 ]; then
+    echo "Install git $git_version"
+    wget https://github.com/git/git/archive/v$git_version.tar.gz
+    tar -xzvf v$git_version.tar.gz
+    rm v$git_version.tar.gz
+    cd git-$git_version
+    make -j4
+    sudo make install
+    cd ..
+
+    echo "Install Emacs $emacs_version"
+    sudo apt-get -y install build-essential
+    sudo apt-get -y build-dep emacs24
+    wget http://ftp.gnu.org/gnu/emacs/emacs-$emacs_version.tar.gz
+    tar -xzvf emacs-$emacs_version.tar.gz
+    rm emacs-$emacs_version.tar.gz
+    cd emacs-$emacs_version
     ./configure # --prefix=/opt/emacs
     make -j4
     sudo make install
@@ -53,34 +61,10 @@ if [ -d "dot-emacs" ]; then
     echo "Update Emacs config"
     cd dot-emacs
     git pull
+    emacs --batch --script $dir/dot-emacs/create-links.el
     cd ..
 else
     echo "Install Emacs config"
     git clone https://github.com/snosov1/dot-emacs.git
     emacs --batch --script $dir/dot-emacs/create-links.el
-fi
-
-# bash config
-if [ -d "bash" ]; then
-    echo "Update bash config"
-    cd bash
-    git pull
-    cd ..
-else
-    echo "Install bash config"
-    git clone https://github.com/snosov1/bash.git
-    pushd .
-    cd bash
-    bash install-bashrc.bash
-    popd
-fi
-
-# useful utilities
-if [ -d "bin" ]; then
-    cd bin
-    git pull
-    cd ..
-else
-    git clone https://github.com/snosov1/bin.git
-    ln -s $dir/bin ~/bin
 fi
